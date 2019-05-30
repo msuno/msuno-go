@@ -1,20 +1,15 @@
 package routers
 
 import (
-	"web/controllers"
 	"github.com/astaxie/beego"
+	"web/controllers"
 )
 
 func init() {
-	ns := beego.NewNamespace("/v1",
-		beego.NSNamespace("obj",
-			beego.NSRouter("/login",&controllers.MainController{},"*:Login"),
-		),
-		beego.NSNamespace("/us",
-			beego.NSRouter("/doGet", &controllers.MainController{}, "*:DoGet"),
-			beego.NSRouter("/doPost", &controllers.MainController{}, "*:DoPost"),
-		),
+	ns := beego.NewNamespace("/conf",
+		beego.NSRouter("/save", &controllers.MainController{}, "*:Save"),
+		beego.NSRouter("/fetch", &controllers.MainController{}, "*:Fetch"),
 	)
 	beego.AddNamespace(ns)
-	beego.Router("/",&controllers.MainController{})
+	beego.Router("/", &controllers.MainController{})
 }
