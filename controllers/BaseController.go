@@ -11,11 +11,11 @@ type BaseController struct {
 //获取get,post所有参数
 func (c *BaseController) Querys() map[string]interface{} {
 	result := make(map[string]interface{})
-	err := c.Ctx.Input.Context.Request.ParseForm()
+	err := c.Ctx.Request.ParseForm()
 	if err != nil{
 		logs.Info(err)
 	}
-	values := c.Ctx.Input.Context.Request.Form
+	values := c.Ctx.Request.Form
 	for k, v := range values{
 		if len(v) == 1 {
 			result[k] = v[0]

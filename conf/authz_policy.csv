@@ -1,0 +1,5 @@
+p, admin, /v1/us/**, *
+p, anonymous, /login, *
+p, anonymous, /doGet, *
+p, member, /logout, *
+p, member, /member/*, *

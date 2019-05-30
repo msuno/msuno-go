@@ -91,5 +91,19 @@
   <div class="backdrop"></div>
 
   <script src="/static/js/reload.min.js"></script>
+  <script>
+    function a(){
+      var data = {msg:"test",code:200,data:"big"}
+      let result = Object.keys(data)
+              .sort((a, b) => a.toLocaleLowerCase().charCodeAt(0) - b.toLocaleLowerCase().charCodeAt(0))
+              .reduce((str, key) => {
+                let value = data[key].toString();
+                return `${str}${key}${value}`;
+              }, "polyv");
+
+      console.log(result)
+    }
+    a()
+  </script>
 </body>
 </html>
