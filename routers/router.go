@@ -6,10 +6,17 @@ import (
 )
 
 func init() {
-	ns := beego.NewNamespace("/conf",
-		beego.NSRouter("/save", &controllers.MainController{}, "*:Save"),
-		beego.NSRouter("/fetch", &controllers.MainController{}, "*:Fetch"),
+	nsc := beego.NewNamespace("/conf",
+		beego.NSRouter("/save", &controllers.ConfigController{}, "POST:Save"),
+		beego.NSRouter("/fetch", &controllers.ConfigController{}, "POST:Fetch"),
 	)
-	beego.AddNamespace(ns)
+	nsh := beego.NewNamespace("/history",
+		beego.NSRouter("/query", &controllers.HistoryController{}, "POST:Query"),
+		beego.NSRouter("/save", &controllers.HistoryController{}, "POST:Save"),
+		beego.NSRouter("/update", &controllers.HistoryController{}, "POST:Update"),
+		beego.NSRouter("/delete", &controllers.HistoryController{}, "POST:Delete"),
+	)
+	beego.AddNamespace(nsc, nsh)
+	beego.Router("/send", &controllers.MainController{}, "POST:Send")
 	beego.Router("/", &controllers.MainController{})
 }

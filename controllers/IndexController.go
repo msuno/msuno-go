@@ -6,6 +6,10 @@ import (
 	"github.com/astaxie/beego"
 	"io/ioutil"
 	"os"
+	"strconv"
+	"time"
+	"web/models"
+	"web/util"
 )
 
 type MainController struct {
@@ -51,4 +55,48 @@ func (c *MainController) Fetch() {
 	}
 	c.Data["json"] = conf
 	c.ServeJSON()
+}
+
+func (c *MainController) Send() {
+	start := time.Now().Nanosecond()
+	defer func() {
+		if r := recover(); r != nil {
+			c.FailTime(r, start)
+			return
+		}
+	}()
+	qy := c.QueryString()
+	url := qy["url"]
+	method := qy["method"]
+	isSave := qy["isSave"]
+	delete(qy, "url")
+	delete(qy, "method")
+	delete(qy, "isSave")
+	var res string
+	if method == "POST" {
+		res = util.PostForm(url, qy)
+	} else if method == "GET" {
+		res = util.GetForm(url, qy)
+	} else {
+		c.FailTime("not support such method", start)
+		return
+	}
+	end := time.Now().Nanosecond()
+	exec := end - start
+	fmt.Println(exec)
+	if isSave == "1" {
+		param, _ := json.Marshal(qy)
+		history := &models.History{
+			Url:    url,
+			Method: method,
+			Exec:   strconv.Itoa(exec),
+			Param:  string(param),
+			Result: res,
+			Ctime:  time.Now().Format("2006-01-02 15:04:05"),
+		}
+		_, _ = history.Insert()
+	}
+	result := make(map[string]interface{})
+	_ = json.Unmarshal([]byte(res), &result)
+	c.SuccessTime(result, exec)
 }
