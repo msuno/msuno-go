@@ -26,6 +26,10 @@ func (c *MainController) Get() {
 	c.TplName = "index.html"
 }
 
+func (c *MainController) Markdown() {
+	c.TplName = "markdown.html"
+}
+
 var (
 	filename = beego.AppPath + "\\static\\conf.conf"
 )

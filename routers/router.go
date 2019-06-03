@@ -18,5 +18,6 @@ func init() {
 	)
 	beego.AddNamespace(nsc, nsh)
 	beego.Router("/send", &controllers.MainController{}, "POST:Send")
+	beego.Router("/markdown", &controllers.MainController{}, "*:Markdown")
 	beego.Router("/", &controllers.MainController{})
 }
