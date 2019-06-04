@@ -5,6 +5,7 @@ import (
 	"github.com/astaxie/beego/orm"
 	_ "github.com/mattn/go-sqlite3"
 	"reflect"
+	"runtime"
 )
 
 type Config struct {
@@ -26,10 +27,18 @@ type History struct {
 }
 
 var (
-	filename = beego.AppPath + "\\static\\data.db"
+	ostype = runtime.GOOS
+	filename = beego.AppPath
 )
 
 func init() {
+	if ostype == "windows" {
+		filename = filename + "\\static\\data.db"
+	}else if ostype == "linux" {
+		filename = filename + "/static/data.db"
+	}else {
+		filename = "/data.db"
+	}
 	_ = orm.RegisterDriver("sqlite3", orm.DRSqlite)
 	_ = orm.RegisterDataBase("default", "sqlite3", filename)
 	orm.RegisterModel(new(Config), new(History))
