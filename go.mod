@@ -6,11 +6,12 @@ replace (
 	golang.org/x/sync => github.com/golang/sync v0.0.0-20190423024810-112230192c58
 	golang.org/x/sys => github.com/golang/sys v0.0.0-20190524152521-dbbf3f1254d4
 	golang.org/x/text => github.com/golang/text v0.3.2
-	golang.org/x/tools => github.com/golang/tools v0.0.0-20190524140312-2c0ae7006135
+	golang.org/x/tools => github.com/golang/tools v0.0.0-20190611222205-d73e1c7e250b
 )
 
 require (
 	github.com/astaxie/beego v1.11.1
+	github.com/go-redis/redis v6.15.2+incompatible // indirect
 	github.com/mattn/go-sqlite3 v1.10.0
-	github.com/smartystreets/goconvey v0.0.0-20190330032615-68dc04aab96a
+	github.com/minio/minio-go/v6 v6.0.28
 )

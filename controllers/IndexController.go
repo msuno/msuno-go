@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/astaxie/beego"
+	"github.com/minio/minio-go/v6"
 	"io/ioutil"
 	"os"
 	"strconv"
@@ -27,12 +28,33 @@ func (c *MainController) Get() {
 }
 
 func (c *MainController) Markdown() {
-	c.TplName = "markdown.html"
+	c.Data["json"] = "hello world"
+	c.TplName = "json.html"
 }
 
 var (
 	filename = beego.AppPath + "\\static\\conf.conf"
 )
+
+func (c *MainController) Upload() {
+	c.Ctx.ResponseWriter.Header().Set("Access-Control-Allow-Origin", "*")    //允许访问源
+	c.Ctx.ResponseWriter.Header().Set("Access-Control-Allow-Methods", "PUT") //允许访问方法
+	file, header, err := c.GetFile("file")
+	if err != nil {
+		c.Fail(err.Error())
+	}
+	client, err := minio.New("minio.polyv.net", "9YYC7L8LHXUV74SH4PBU", "pERBM9wxHdnWOLK8JzGiSpB+Id4v+W35lLpAbxd8", false)
+	if err != nil {
+		c.Fail(err.Error())
+	}
+	n, err := client.PutObject("msuno", header.Filename, file, -1, minio.PutObjectOptions{})
+	if err != nil {
+		fmt.Println("put")
+		c.Fail(err.Error())
+	}
+	fmt.Println(n)
+	c.Success(header)
+}
 
 func (c *MainController) Save() {
 	data := c.Querys()

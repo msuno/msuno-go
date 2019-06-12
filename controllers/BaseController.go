@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
 	"time"
@@ -49,6 +50,16 @@ func (c *BaseController) Success(v interface{}) {
 	res["data"] = v
 	c.Data["json"] = res
 	c.ServeJSON()
+}
+
+func (c *BaseController) SuccessHtml(v interface{}) {
+	res := make(map[string]interface{})
+	res["code"] = 0
+	res["status"] = "success"
+	res["data"] = v
+	bytes, _ := json.MarshalIndent(res, "", "	")
+	c.Data["json"] = string(bytes)
+	c.TplName = "json.html"
 }
 
 func (c *BaseController) SuccessTime(v interface{}, start int) {
