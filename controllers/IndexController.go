@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/astaxie/beego"
-	"github.com/minio/minio-go/v6"
+	"github.com/minio/minio-go"
 	"io/ioutil"
 	"os"
 	"strconv"
@@ -125,4 +125,15 @@ func (c *MainController) Send() {
 	result := make(map[string]interface{})
 	_ = json.Unmarshal([]byte(res), &result)
 	c.SuccessTime(result, exec)
+}
+
+func (c *MainController) Json() {
+	id := c.QueryString()["id"]
+	var history models.History
+	_, _ = history.Querys().Filter("id", id).Limit(1).All(&history)
+	m := make(map[string]interface{})
+	_ = json.Unmarshal([]byte(history.Result), &m)
+	b, _ := json.MarshalIndent(m, "", "	")
+	c.Data["json"] = string(b)
+	c.TplName = "json.html"
 }

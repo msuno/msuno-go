@@ -52,7 +52,7 @@ func (c *BaseController) Success(v interface{}) {
 	c.ServeJSON()
 }
 
-func (c *BaseController) SuccessHtml(v interface{}) {
+func (c *BaseController) SuccessJson(v interface{}) {
 	res := make(map[string]interface{})
 	res["code"] = 0
 	res["status"] = "success"

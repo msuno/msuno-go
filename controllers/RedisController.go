@@ -16,17 +16,17 @@ var (
 func (c *RedisController) Query() {
 	str := c.QueryString()["key"]
 	keys := redisDb.Keys("*" + str + "*")
-	c.SuccessHtml(keys.Val())
+	c.SuccessJson(keys.Val())
 }
 
 func (c *RedisController) Delete() {
 	str := c.QueryString()["key"]
 	del := redisDb.Del(str)
-	c.SuccessHtml(del.Val())
+	c.SuccessJson(del.Val())
 }
 
 func (c *RedisController) Fetch() {
 	str := c.QueryString()["key"]
 	val := redisDb.Get(str)
-	c.SuccessHtml(val.Val())
+	c.SuccessJson(val.Val())
 }

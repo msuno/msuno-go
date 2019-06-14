@@ -28,9 +28,13 @@ func init() {
 		beego.NSRouter("/delete", &controllers.RedisController{}, "*:Delete"),
 		beego.NSRouter("/fetch", &controllers.RedisController{}, "*:Fetch"),
 	)
-	beego.AddNamespace(nsc, nsh, rds)
+	lgi := beego.NewNamespace("/login",
+		beego.NSRouter("/", &controllers.LoginController{}),
+	)
+	beego.AddNamespace(nsc, nsh, rds, lgi)
 	beego.Router("/upload", &controllers.MainController{}, "PUT:Upload")
 	beego.Router("/send", &controllers.MainController{}, "POST:Send")
+	beego.Router("/json", &controllers.MainController{}, "*:Json")
 	beego.Router("/markdown", &controllers.MainController{}, "*:Markdown")
 	beego.Router("/", &controllers.MainController{})
 }
