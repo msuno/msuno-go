@@ -4,14 +4,25 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/astaxie/beego"
+	"ngrok/server"
+	"os/exec"
 	_ "web/models"
 	_ "web/routers"
 )
+
+func OpenUrl(url string)  {
+	err := exec.Command("cmd.exe", "/c", "start " + url).Run()
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+}
 
 func main() {
 	//initDB()
 	beego.BConfig.WebConfig.TemplateLeft = "[["
 	beego.BConfig.WebConfig.TemplateRight = "]]"
+	go OpenUrl("http://127.0.0.1:8090")
+	go server.Start()
 	beego.Run()
 }
 

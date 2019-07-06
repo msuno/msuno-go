@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/4QAiRXhpZgAATU0AKgAAAAgAAQESAAMAAAABAAEAAAAAAAD/2wBDAAIBAQIBAQICAgICAgICAwUDAwMDAwYEBAMFBwYHBwcGBwcICQsJCAgKCAcHCg0KCgsMDAwMBwkODw0MDgsMDAz/2wBDAQICAgMDAwYDAwYMCAcIDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAz/wAARCAAgACADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD6y07S/tG1v8k1v6l4vl/Z+0q38Rat4Rk8TeE3YC8ltUVrnSpBnEjK/wC7aMjoWZNrAgt8yimaP9nsrWS5upY7e1tYjNLLICUjVRksQoJwPYE+leCw/Fb4sftNRa1L4RvNW0fTdPf+y545tfWx0vTftAwguJ02bogrMXkCNKIkfIYYDfdeJHEc8Fho4HCc3t6l3FRSekd3JS05ejvbfRq11+K5Ph3UqOo+mxj+F/hH4d+Kn7XviDxB4P0HUNI+HesSNZ2tvaulhdSzT24tY7G2jOGglupmn8ottjtw/nFxFBtOD+158ALHwxd+O76x8PWGjah4Av7XU7m/0WyZLC1v7cpIp3bCYLWQwPDDExQRoYlDMYyW81s9e+L37PHia+k+EureKvEOoXBvrufToNLa9trqJYEjmuriz/eRvG5O3Y6sIfs0e0jbGa0vhd/wWF8TfAHU/GEl/a6b46vvH1jGl9reoE3UllIi7AHRMRTZimbdE+CWxnKhkP8AM8cTQxGGo0leDlUlUlKMVZtQbSS00TaSjpZbu+p9TSxVJRVNp3u7vv8A12PuaxtbXVbZYbq2tbyEkHy54lkQkdDhgRXlviX9niO48U6pqunaeuj6Lr087XdnaqIYbl47NvKmliAwBmFMZwRuYDG87u80DVg6r9K7jwhfR3Mm2XaytwQ3IYd81/WPG3BeFzyjGGJk4qLvpbV2tZu12rN6XV736I+Jy7GSozdludf+yN8BtH+DPgu4t1t4rq4161hGoJeW6SbRszJbZIybfezN5TZAZnJzuwPyu/4KlfsqWPwZ8U61oPw/+G19oPhubW7q7fxALa5t9LbzQrLZQyMfs3lWwDbzEpYOSrEFMH9eNC15YIVO4A9zmtyHxsF3bJmXcvlttb7y+hHp7V+fZxwThqmFhg8L7ns/hdr/AHq6vffc+vw9SNWmozZ//9k=" type="image/x-icon" />
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <button @click="login">登陆</button>
+	<button @click="untiren">解除踢人</button>
+	<button @click="tiren">踢人</button>
+	<button @click="tirenList">踢人列表</button>
+	<button @click="jinyan">禁言</button>
+	<button @click="jinyanHttp">禁言http</button>
+	<button @click="unjinyan">解除禁言</button>
+	<button @click="jinyanList">禁言列表</button>
+	<button @click="testSocket">test</button>
+	<button @click="isBan">isBan</button>
+	
+</div>
+</body>
+<script type="text/javascript" src="/static/js/socket.io.2.0.4.js"></script>
+<script type="text/javascript" src="/static/js/vue.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+    var userId = "1562033143998";
+	var ip = "192.168.201.38"
+	var type = "userId"
+	var roomId = 329298
+    new Vue({
+        el: "#app",
+        data:{
+            socket: ''
+        },
+        methods:{
+            login(){
+                this.socket.emit('message', JSON.stringify({
+                    EVENT: 'LOGIN',
+                    values: ["测试禁言......", "https://imgt.388g.com/thumb_src/200_185/150278298390125.jpg", userId], //登录用户信息，不可为空
+                    roomId: roomId, //当前房间号
+                }));
+            },
+			tiren(){
+				this.socket.emit('message', JSON.stringify({
+					EVENT: 'KICK',
+					roomId: roomId,
+					channelId: roomId,
+					userId: userId,
+					type: type,
+					sign: "b85472a6624d82f1debeabb03066fb67"
+				}));
+			},
+			untiren(){
+				$.get("http://apichat.polyv.net/admin/delKicked",{roomId:roomId,type:type,value:userId,sign:"b85472a6624d82f1debeabb03066fb67"},function(data){
+                    console.log(data)
+                 })
+				 /*this.socket.emit('message', JSON.stringify({
+					EVENT: 'UNKICK',
+					roomId: roomId,
+					value: userId,
+					type: type,
+				}));*/
+			},
+			tirenList(){
+			     $.get("http://apichat.polyv.net/admin/listKicked",{roomId:roomId,sign:"b85472a6624d82f1debeabb03066fb67"},function(data){
+                    console.log(data)
+                 })
+			},
+			jinyan(){
+				this.socket.emit('message', JSON.stringify({
+					EVENT: 'SHIELD',
+					roomId: roomId,
+					channelId: roomId,
+					sign: "b85472a6624d82f1debeabb03066fb67",
+					value: userId,
+					type: type
+				}));
+			},
+			jinyanHttp(){
+				$.get("http://apichat.polyv.net/admin/addBannedIP",{roomId:roomId,ip:userId,sign:"b85472a6624d82f1debeabb03066fb67",type:type},function(data){
+                    console.log(data)
+                 })
+			},
+			jinyanList(){
+			     $.get("http://apichat.polyv.net/admin/listBanned",{roomId:roomId,type:type},function(data){
+                    console.log(data)
+                 })
+			},
+			unjinyan(){
+			     $.get("http://apichat.polyv.net/admin/delBanned",{roomId:roomId,type:type,sign:"b85472a6624d82f1debeabb03066fb67",ip:userId},function(data){
+                    console.log(data)
+                 })
+			},
+			testSocket(){
+				this.socket.emit('message', JSON.stringify({
+					EVENT: 'IS_SHIELD',
+					roomId: roomId,
+					userId: "1qsfkdljfskd"
+				}));
+			},
+			isBan(){
+				$.get("http://apichat.polyv.net/admin/isKicked",{roomId:roomId,userId:userId},function(data){
+                    console.log(data)
+                 })
+			}
+        },
+        mounted(){
+            this.socket.on('message' , function(data) {
+                var mData = JSON.parse(data);
+                console.log(mData)
+            })
+        },
+        created(){
+            var supportsWebSockets = 'WebSocket' in window || 'MozWebSocket' in window;
+            var chatHost = 'http://chat.polyv.net';
+            var chatToken;
+            this.socket = io.connect(chatHost, {
+                query: 'token=' + chatToken,
+                transports : [supportsWebSockets ? 'websocket' : 'polling']
+            });
+        }
+    })
+</script>
+</html>

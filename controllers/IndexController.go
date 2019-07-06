@@ -109,7 +109,6 @@ func (c *MainController) Send() {
 	}
 	end := time.Now().Nanosecond()
 	exec := end - start
-	fmt.Println(exec)
 	if isSave == "1" {
 		param, _ := json.Marshal(qy)
 		history := &models.History{
@@ -123,7 +122,11 @@ func (c *MainController) Send() {
 		_, _ = history.Insert()
 	}
 	result := make(map[string]interface{})
-	_ = json.Unmarshal([]byte(res), &result)
+	err := json.Unmarshal([]byte(res), &result)
+	if err != nil {
+		c.Success(res)
+		return
+	}
 	c.SuccessTime(result, exec)
 }
 

@@ -31,10 +31,13 @@ func init() {
 	lgi := beego.NewNamespace("/login",
 		beego.NSRouter("/", &controllers.LoginController{}),
 	)
-	beego.AddNamespace(nsc, nsh, rds, lgi)
+	json := beego.NewNamespace("/json",
+		beego.NSRouter("/socket", &controllers.SocketController{}),
+		beego.NSRouter("/markdown", &controllers.MainController{}, "*:Markdown"),
+	)
+	beego.AddNamespace(nsc, nsh, rds, lgi, json)
 	beego.Router("/upload", &controllers.MainController{}, "PUT:Upload")
 	beego.Router("/send", &controllers.MainController{}, "POST:Send")
 	beego.Router("/json", &controllers.MainController{}, "*:Json")
-	beego.Router("/markdown", &controllers.MainController{}, "*:Markdown")
 	beego.Router("/", &controllers.MainController{})
 }
